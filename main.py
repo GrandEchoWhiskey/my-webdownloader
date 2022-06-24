@@ -12,16 +12,17 @@ def main():
             "url": img_url
         })
 
+    index = 0
     for img_item in img:
         request = requests.get(img_item['url'], stream = True)
-
+        index += 1
         if request.status_code == 200:
             request.raw.decode_content = True
             
-            with open(img_item['name'], 'wb') as file:
+            with open(f"download_{index}.png", 'wb') as file:
                 shutil.copyfileobj(request.raw, file)
                 
-            print('Image downloaded to: ', img_item['name'])
+            print('Image downloaded to: ', f"download_{index}.png")
         else:
             print('Error!')
 
